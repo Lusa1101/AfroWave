@@ -1,0 +1,27 @@
+<div class="d-flex flex-column vh-100 px-3 p-2" id="proposal">    
+    <h3 class="text-center text-primary fw-bold display-4 mb-5"> Research Proposal</h3>
+    <div class="flex-grow-1">
+        <pdf-viewer
+        [src]="pdfSrc"
+        [page]="currentPage"
+        [stick-to-page]="true"
+        [original-size]="false"
+        [show-all]="false"
+        [render-text]="true"
+        style="width: 100%; height: 80vh;"
+        (after-load-complete)="totalPages = $event._pdfInfo.numPages"
+    ></pdf-viewer>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-outline-secondary" (click)="prevPage()" [disabled]="currentPage === 1">
+        ⬅️ Previous
+        </button>
+        
+        <span class="text-muted">Page {{ currentPage }} of {{ totalPages }}</span>
+
+        <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next ➡️
+        </button>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<section id="audio-demo" class="position-relative py-5 overflow-hidden bg-dark text-light">
+  <!-- Background Image -->
+  <div class="position-absolute top-0 bottom-0 start-0 end-0 bg-cover bg-center z-0"
+       style="background-image: url('https://storage.googleapis.com/project-pinpoint/generative-ai/image_gen_uploaded_images/07780ff7-03d7-455e-9584-0329af08e9f5_cleaned.png');"
+       aria-hidden="true">
+  </div>
+
+  <!-- Overlay -->
+  <div class="position-absolute top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-75 backdrop-blur z-1" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div class="container position-relative z-2">
+    <h2 class="text-center text-primary fw-bold display-5 mb-4">Audio Demos</h2>
+    <p class="lead text-center text-light opacity-75 mb-5 mx-auto" style="max-width: 720px;">
+      Experience the richness of AfroWave. Test your knowledge by guessing the genre for each demo!
+    </p>
+
+    <div class="d-flex overflow-auto gap-4 pb-4 px-2 hide-scrollbar">
+      
+      <!-- Audio Demo Card -->
+      <div *ngFor="let demo of demoData, let i = index" class="card shadow-lg bg-secondary text-light flex-shrink-0" style="width: 20rem;">
+        <div class="card-body d-flex flex-column">
+          <!-- Audio Area -->
+          <div class="flex flex-column bg-light bg-opacity-10 border border-light border-dashed p-4 rounded text-center mb-4">
+            <img src="assets/icons/music.png"/>
+            <audio controls src="{{demo.audioUrl}}" class="w-100 max-w-sm my-4 rounded shadow-md"></audio>
+          </div>
+
+          <!-- Guess Form -->
+          <div class="border-top pt-3 mt-auto">
+            <h5 class="mb-3">Guess the Genre:</h5>
+            <div class="form-check" *ngFor="let genre of guessableGenres, let j = index">
+              <input class="form-check-input" type="radio" [value]="genre" 
+                    [(ngModel)]="selectedGenres[i]" 
+                    [name]="'genre-' + i" [id]="'genre-' + i + '-' + j"/>
+              <label class="form-check-label" for="'genre-' + i + '-' + j">
+                {{ genre }}
+              </label>
+            </div>
+            
+            <div class="container card-body d-flex justify-content-center gap-3 mt-4">
+              <button class="btn btn-primary w-80 mt-3" (click)="handleSubmitGuess(i, demo.correctGenre)">
+                Submit Guess
+              </button>
+              <button class="btn btn-outline-light mt-auto" (click)="resetSelection(i)">
+                <img src="assets/icons/refresh-cw.png" height="24px" width="24px"/>
+              </button>
+            </div>
+
+            <p *ngIf="genreSelected[i]" class="mt-2 text-center small text-light">{{guessResults[i]}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- You can duplicate the above card for multiple demos -->
+
+    </div>
+  </div>
+</section>
+
+<!-- Template --
+            <div *ngFor="let genre of genres">
+              <input
+                type="radio"
+                [value]="genre"
+                [name]="'demo-' + index"
+                [checked]="selectedGenres[index] === genre"
+                (change)="handleSelectGenre(index, genre)"
+              />
+              {{ genre }}
+            </div>
+
+            <div *ngFor="let genre of genres">
+            <input
+              type="radio"
+              [name]="'demo-' + demoIndex"     !-- groups per card --
+              [value]="genre"
+              [(ngModel)]="selectedGenres[demoIndex]"
+            />
+            {{ genre }}
+          </div>
+
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+              <button type="submit" class="btn btn-success">
+                🔊 Submit Guess
+              </button>
+              <button type="button" class="btn btn-outline-light">
+                🔄 Restart
+              </button>
+            </div>
+          -->
