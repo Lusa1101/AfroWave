@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { NgModel, FormsModule, NgForm } from '@angular/forms';
+import { Supabase } from '../../services/supabase';
+import { guess } from '../../utils/guess';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-demo-section',
@@ -13,7 +16,13 @@ import { NgModel, FormsModule, NgForm } from '@angular/forms';
   templateUrl: './demo-section.html',
   styleUrl: './demo-section.css'
 })
-export class DemoSection {
+export class DemoSection {//implements OnInit {
+
+  constructor(private supabaseService: Supabase, private cdr: ChangeDetectorRef){
+    //Fetch initial data
+    this.fetchData();
+  }
+
   demoData = [
     { audioUrl: 'assets/audios/Lemmy__Special__Mabaso___See_you_later.m4a', correctGenre: 'Kwela' },
     { audioUrl: 'assets/audios/Mahotella_Queens_-_Thoko__1964.m4a', correctGenre: 'Mbaqanga' },
@@ -35,6 +44,19 @@ export class DemoSection {
 
   ngOnInit() {
     this.selectedGenres = Array(this.demoData.length).fill(null);
+    
+    //Have to fetch data from db
+    this.fetchData();
+
+    //Listen to changes in the db
+    this.supabaseService.updateGuess.subscribe(newGuess => {
+      console.log("The new Guess: ", newGuess);
+
+      //Update the guesses list
+      this.guesses = [...this.guesses, newGuess];
+      this.calculateCounts();
+      this.cdr.detectChanges();
+    });
   }
 
   handleSelectGenre(index: number, value: string) {
@@ -43,7 +65,7 @@ export class DemoSection {
 
   guessMessages = ['Correct! ✅', 'Oops! Try again :)', 'Please select your guess!']
 
-  handleSubmitGuess(index: number, correctGenre: string) {
+  async handleSubmitGuess(index: number, correctGenre: string) {
     const guess = this.selectedGenres[index];
       if (!guess) {
         this.guessResults[index] = 'Please select a genre first!';
@@ -51,6 +73,10 @@ export class DemoSection {
       }
       this.guessResults[index] = this.selectedGenres[index] === correctGenre ? this.guessMessages[0] : this.guessMessages[1];
       this.genreSelected[index] = true;
+
+      //Insert the guess
+      await this.insertGuess(correctGenre, guess);
+
     }
     selectedGenre: string | null = null;
 
@@ -67,9 +93,62 @@ export class DemoSection {
     }
     return result;
   }
+
+  //Guess counts
+  guesses: guess [] = [];
+
+  async fetchData(){
+    //Have to fetch data from db
+    await this.supabaseService.getGuesses().then(({data, error}) => {
+      if (error)
+        console.log("Error: ", error);
+      else{
+        console.log("Data: ", data);
+        this.guesses = data;
+      }
+    })
+
+    //Calculate the counts
+    this.calculateCounts();
+  }
+
+  async insertGuess(genre: string, selected_genre: string){
+    const result = await this.supabaseService.insertGuess(genre, selected_genre);
+
+    if(result.error){
+      console.error(result.error);
+      return;
+    }
+  }
+
+  //Set the genres first in guessCounts
+  guessCounts: guessCount [] = [];
+
+  calculateCounts() {
+  // Initialize once, outside the loop
+  this.guessCounts = this.guessableGenres.map(genre => ({
+    genre,
+    count: 0,
+    total_count: 0
+  }));
+
+  for (let guess of this.guesses) {
+    // Update total count per genre
+    const genreMatch = this.guessCounts.find(item => item.genre === guess.genre);
+    if (genreMatch) genreMatch.total_count++;
+
+    // Update correct guesses count
+    if (guess.genre === guess.selected_genre) {
+      const match = this.guessCounts.find(item => item.genre === guess.genre);
+      if (match) match.count++;
+    }
+  }
 }
 
-interface guess {
-  color: string,
-  message: string
+}
+
+interface guessCount {
+  genre: string;
+  count: number;
+  total_count: number;
 }

@@ -55,6 +55,52 @@
       <!-- You can duplicate the above card for multiple demos -->
 
     </div>
+
+    <div class="card bg-secondary gap-3 mt-3 pt-3 px-2 py-5 z-2">
+
+      <div class="card-body d-flex justify-content-center gap-3 mt-4">
+        <h3>Here's the performance</h3>
+        <!----
+        <button class="btn btn-outline-light mt-auto" (click)="fetchData()">
+          <i class='bx  bx-refresh-ccw-dot flex-column bg-center'  ></i> 
+        </button>-->
+      </div>
+      <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Genre</th>
+          <th>Results</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of guessCounts, let i = index">
+          <td>{{item.genre}}</td>
+          <td>
+            <div class="progress">
+              <div 
+                class="progress-bar bg-success"
+                role="progressbar"
+                [style.width]="item.total_count > 0 ? ((item.count / item.total_count) * 100) + '%' : '0%'"
+                [attr.aria-valuenow]="item.count"
+                aria-valuemin="0"
+                [attr.aria-valuemax]="item.total_count">
+              </div>
+
+              <div
+              class="progress-bar bg-secondary"
+              role="progressbar"
+              [style.width]="item.total_count > 0 ? (((item.total_count - item.count) / item.total_count) * 100) + '%' : '100%'"
+              style="opacity: 0.3;">
+            </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <td>
+
+      </td>
+    </table>
+    </div>
   </div>
 </section>
 
