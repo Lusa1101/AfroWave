@@ -8,6 +8,7 @@ import { GenreGapSection } from './genre-gap-section/genre-gap-section';
 import { MethodologySection } from './methodology-section/methodology-section';
 import { ProposalSection } from './proposal-section/proposal-section';
 import { DemoSection } from "./demo-section/demo-section";
+import { Footer } from './footer/footer';
 
 //import pdf viewer
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -22,6 +23,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MethodologySection,
     ProposalSection,
     DemoSection,
+    Footer,
     PdfViewerModule   //To remove if performance is disturbed
 ],
   templateUrl: './app.html',

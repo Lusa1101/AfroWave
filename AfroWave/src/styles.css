@@ -8,3 +8,8 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

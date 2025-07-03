@@ -7,7 +7,8 @@
     <div  class="d-flex overflow-auto gap-4 pb-3 px-2 hide-scrollbar">
       
       <!-- Pipeline Step Card -->
-      <div *ngFor="let step of pipelineSteps" class="card bg-secondary text-light flex-shrink-0 shadow-lg rounded-4 p-3" style="width: 20rem; transition: transform 0.3s ease;">
+      <div *ngFor="let step of pipelineSteps, let i = index" class="card bg-secondary text-light flex-shrink-0 shadow-lg rounded-4 p-3" 
+           style="width: 20rem; transition: transform 0.3s ease;" [id]="step.icon">
         <div class="d-flex align-items-center mb-3">
           <div class="bg-dark border border-primary rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 64px; height: 64px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
             <!-- Replace with appropriate icon -->
@@ -15,9 +16,29 @@
           </div>
           <h5 class="mb-0 text-accent">{{ step.title }}</h5>
         </div>
-        <p class="small text-light text-opacity-75 mb-0">
+        <!-- <p class="small text-light text-opacity-75 mb-0">
           {{ step.description }}
-        </p>
+        </p> -->
+        <div *ngIf="!step.pdfSrc">
+          <p class="text-warning">PDF not available for this step.</p>
+        </div>
+        <pdf-viewer        
+        [src]="step.pdfSrc"
+        style="height: 400px; width: 100%;"
+        [stick-to-page]="true"
+        [original-size]="false"
+        [show-all]="false"
+        [render-text]="true">
+      </pdf-viewer>
+      <!-- <button class="btn btn-outline-light mt-1" (click)="openModal(step.pdfSrc, i)">
+        Full View
+      </button>
+
+      <div *ngIf="selectedPdf" class="fullscreen-modal">
+        <button class="btn btn-danger position-absolute top-0 end-0 m-3" (click)="closeModal(i)">Close</button>
+        <pdf-viewer [src]="selectedPdf" style="height: 80%; width: 80%" [show-all]="true"></pdf-viewer>
+      </div> -->
+
       </div>
     </div>
   </div>
