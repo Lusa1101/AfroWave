@@ -59,6 +59,21 @@ export class DemoSection {//implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+  const allAudio = document.querySelectorAll('audio');
+
+  allAudio.forEach(audio => {
+    audio.addEventListener('play', () => {
+      allAudio.forEach(other => {
+        if (other !== audio) {
+          other.pause();
+        }
+      });
+    });
+  });
+}
+
+
   handleSelectGenre(index: number, value: string) {
     this.selectedGenres[index] = value;
   }
