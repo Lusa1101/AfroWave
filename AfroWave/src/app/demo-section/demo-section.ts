@@ -37,6 +37,20 @@ export class DemoSection {//implements OnInit {
     // Add more demos...
   ];
 
+  //Due to the IndabaX event long over due, no real-time Db needed
+  genreStats = [
+    { genre: "Mbaqanga", count: 8, total_count: 17 },
+    { genre: "Kwaito", count: 4, total_count: 8 },
+    { genre: "Amapiano", count: 3, total_count: 6 },
+    { genre: "Kwela", count: 8, total_count: 19 },
+    { genre: "Afrosoul", count: 3, total_count: 5 },
+    { genre: "Afropop", count: 3, total_count: 9 },
+    { genre: "Jazz", count: 3, total_count: 9 },
+    { genre: "Lekompo", count: 2, total_count: 2 },
+    { genre: "Gqom", count: 2, total_count: 3 },
+    { genre: "Hip-hop", count: 2, total_count: 2 }
+  ];
+
   guessableGenres = ['Amapiano', 'Kwaito', 'Gqom', 'Kwela', 'Jazz', 'Afrosoul', 'Lekompo', 'Mbaqanga', 'Afropop', 'Hip-hop'];
   selectedGenres: (string | null)[] = [];
   guessResults: string[] = [];
