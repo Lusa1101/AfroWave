@@ -12,6 +12,7 @@ import { Footer } from './footer/footer';
 
 //import pdf viewer
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ModelSection } from "./model-section/model-section";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ProposalSection,
     DemoSection,
     Footer,
-    PdfViewerModule   //To remove if performance is disturbed
+    PdfViewerModule //To remove if performance is disturbed
+    ,
+    ModelSection
 ],
   templateUrl: './app.html',
   styleUrl: './app.css'

@@ -38,6 +38,52 @@ export class Supabase {
       .subscribe();
   }
 
+  // Fetch bucket
+  async fetchBucket() {
+    const { data, error } = await this.supabase.storage.getBucket('audio_segments');
+    
+    return { data, error };
+  }
+
+  // Get signed url
+  async getSignedUrl(audio_name: string) {
+    const result = await this.supabase.storage.from('audio_segments').createSignedUrl(`segments/${audio_name}`, 60*60);
+
+    return result;
+  }
+  async getModelSignedUrl(model_name: string) {
+    const result = await this.supabase.storage.from('models').createSignedUrl(`Onnx/${model_name}`, 60*60);
+
+    return result;
+  }
+
+  // Get public url for audios Segments
+  async getAudioUrl(audio_name: string){
+    const result = await this.supabase.storage.from('audio_segments').getPublicUrl(audio_name);
+
+    return result;
+  }
+
+  // Get files
+  async getAudiofiles() {
+    const result = await this.supabase
+                              .storage
+                              .from('audio_segments')
+                              .list('Segments');
+
+    return result;
+  }
+
+  // Get models
+  async getModels() {
+    const result = await this.supabase
+                              .storage
+                              .from('models')
+                              .list('Onnx');
+
+    return result;
+  }
+
   // Example: Get data from a table
   async getGuesses() {
     return await this.supabase.from('guess').select('*');

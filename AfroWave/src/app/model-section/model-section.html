@@ -1,0 +1,99 @@
+<section id="model" class="position-relative d-flex flex-column justify-content-center min-vh-100 overflow-hidden text-center bg-dark text-primary px-4 py-5">
+  <div class="container position-relative z-1">
+
+    <!-- Section Title -->
+    <h1 class="display-4 fw-bold lh-tight mx-auto mb-5" style="max-width: 48rem;">
+      Explore the Model
+    </h1>
+
+    <!-- Genre Filter -->
+    <div class="mb-4">
+      <h5 class="text-light">Filter by Genre</h5>
+      <select class="form-select w-auto mx-auto" [(ngModel)]="selected_genre" (ngModelChange)="filterAudios(selected_genre)">
+        <option *ngFor="let option of genres" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+
+    <!-- Audio File Buttons -->
+    <div *ngIf="display_files" class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+      <div *ngFor="let file of display_files; let i = index">
+        <button class="btn btn-outline-primary" (click)="handleAudioSelection(file.name)">
+          {{ selected_genre }} {{ i + 1 }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Genre Guessing Interface -->
+    <div *ngIf="selected_audio" class="mb-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+            <audio controls [src]="selected_audio" class="w-100 mb-3"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <!-- 🔄 Loading Spinner -->
+      <div *ngIf="model_loading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading model and running prediction...</p>
+      </div>
+
+      <!-- ✅ Top Prediction -->
+      <div *ngIf="!model_loading && all_predictions" class="card mb-3 border-success">
+        <div class="results-container">
+          <h2>Model Predictions</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Predicted Genre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let model of getModelList()">
+                <td>{{ model.name }}</td>
+                <td class="genre">{{ model.genre }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+<!- Genre Guessing Interface --
+    <div *ngIf="selectedFile" class="mb-5">
+      <h5 class="text-light">Guess the Genre</h5>
+      <audio controls [src]="getAudioUrl(selectedFile)" class="mb-3"></audio>
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <button *ngFor="let genre of genres" class="btn btn-secondary" (click)="submitGuess(genre)">
+          {{ genre }}
+        </button>
+      </div>
+    </div>
+
+    <!- Model Performance Summary --
+    <div class="mt-5">
+      <h4 class="text-light">Model Performance</h4>
+      <p class="text-muted">Accuracy: {{ modelAccuracy }}%</p>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let metric of genreMetrics">
+          <div class="card bg-secondary text-white mb-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ metric.genre }}</h5>
+              <p class="card-text">Precision: {{ metric.precision }}</p>
+              <p class="card-text">Recall: {{ metric.recall }}</p>
+              <p class="card-text">F1 Score: {{ metric.f1 }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+-->
