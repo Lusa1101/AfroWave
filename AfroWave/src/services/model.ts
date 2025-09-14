@@ -18,16 +18,16 @@ export class ModelService {
   async getPrediction(audio_path: string): Promise<Observable<any>> {
     const params = { audio_path: audio_path };
 
-    return await this.http.get<any>(this.baseUrl, {params});
+    return await this.http.post<any>(this.baseUrl, {params});
   }
   async getPredictions(audio_path: string): Promise<Observable<any>> {
     const params = { audio_path: audio_path };
 
-    return await this.http.get<any>(this.baseUrl2, {params});
+    return await this.http.post<any>(this.baseUrl2, {params});
   }
   async getAllPredictions(audio_path: string): Promise<Observable<any>> {
     const params = { audio_path: audio_path };
 
-    return await this.http.get<any>(this.baseUrl3, {params});
+    return await this.http.post<any>(this.baseUrl3, {params});
   }
 }
