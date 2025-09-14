@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ModelService {
   baseUrl = 'http://localhost:5030/Model/PredictTopGenre';
   baseUrl2 = 'http://localhost:5030/Model/PredictTop3Genres';
-  baseUrl3 = 'https://samgc.runasp.net//PredictAllModels';
+  baseUrl3 = 'https://samgc.runasp.net/PredictAllModels';
 
   constructor(
     private http: HttpClient
